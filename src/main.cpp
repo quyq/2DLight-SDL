@@ -135,8 +135,10 @@ int main(int argc, char* argv[]) {
 		SDL_SetRenderTarget(renderer, rendertex);
 		SDL_RenderClear(renderer);
 
-		vx.reserve(result.size());
-		vy.reserve(result.size());
+		/* The reserve API only reserves the memory, but does not change the size of the vector. The original code will lead to
+		 * vector subscript out of range error. Below fixed the problem by replacing the API with resize. */ 
+		vx.resize(result.size()); //vx.reserve(result.size());
+		vy.resize(result.size()); //vy.reserve(result.size());
 
 		for (size_t i = 0; i < result.size(); i++) {
 			vx[i] = result[i].x;
